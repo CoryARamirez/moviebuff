@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+	<title>MovieBuff</title>
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/new_form.css') }}" rel="stylesheet">
+
+  <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+    <script>
+      function start() {
+        gapi.load('auth2', function() {
+          auth2 = gapi.auth2.init({
+            client_id: '420583094847-kajefl004hlnd0ql6led7hppi1bqb1mt.apps.googleusercontent.com'
+          });
+        });
+      }
+    </script>
+<!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
+</head>
+<body class="text-center justify-content-center">
+    <div id="login-div">
+      <h1 class="h3 mb-3 font-weight-normal">Howdy! Let's get you logged in.</h1>
+      <button class="btn-danger" id="signinButton">Google Signin</button>
+      <p class="mt-5 mb-3 text-muted">&copy; MovieBuff, 2019.</p>
+    </div>
+
+    <div id="result"></div>
+          
+<script>
+      $('#signinButton').click(function () {
+        function signInCallback(authResult) {
+          if (authResult['code']) {
+            // Hide the sign-in button now that the user is authorized
+            $('#signinButton').attr('style', 'display:none');
+            // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
+            $.ajax({
+              type: 'POST',
+              url: '/gconnect?state={{STATE}}',
+              processData: false,
+              data: authResult['code'],
+              contentType: 'application/octet-stream; charset=utf-8',
+              success: function (result) {
+                // Handle or verify the server response if necessary.
+                if (result) {
+                  $('#login-div').remove()
+                  $('#result').html('Login Successful!</br>' + result + '</br>Redirecting...');
+                  setTimeout(function () {
+                    window.location.href = "/";
+                  }, 4000);
+                } else if (authResult['error']) {
+                  console.log('There was an error: ' + authResult['error']);
+                } else {
+                  $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+                }
+              }
+            });
+          }
+        }
+        auth2.grantOfflineAccess().then(signInCallback);
+      })
+</script>
+<!--END GOOGLE PLUS SIGN IN -->
+  </body>
+  </html>

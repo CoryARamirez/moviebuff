@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+	<title>MovieLog</title>
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/new_form.css') }}" rel="stylesheet">
+</head>
+
+  <body class="text-center">
+    <form action="#" method="POST" class="form-signin">
+      <h1 class="h3 mb-3 font-weight-normal">Are you sure you want to delete?</h1>
+
+       <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="options" id="inlineRadio1" value="true" required>
+          <label class="form-check-label" for="inlineRadio1">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="options" id="inlineRadio2" value="false" required>
+          <label class="form-check-label" for="inlineRadio2">No</label>
+        </div>
+    </div>
+
+    </br>
+    </br>
+      {% if login_info.username|string() == item.author|string() %}
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Delete</button>
+        {% elif login_info.username|string() != item.author|string() %}
+            <button class="btn btn-lg btn-danger btn-block" data-placement="top"
+                    title="Unable to delete entries that do not belong to you." type="submit" disabled>Delete</button>
+        {% endif %}
+      <p class="mt-5 mb-3 text-muted">&copy; MovieLog, 2019.</p>
+    </form>
+  </body>
+</html>

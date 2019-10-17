@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+	<title>MovieLog</title>
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/new_form.css') }}" rel="stylesheet">
+</head>
+
+  <body class="text-center">
+    <form action="#" method="POST" class="form-signin">
+      <h1 class="h3 mb-3 font-weight-normal">Let's edit this thing.</h1>
+
+      <label for="name" class="sr-only">Movie name</label>
+      <input type="text" name="name" id="name" class="form-control" placeholder="Movie name" required autofocus>
+
+      </br>
+
+      <label for="desc" class="sr-only">Description</label>
+      <input type="textarea" name="desc" id="desc" class="form-control" placeholder="Movie description" required autofocus>
+
+      </br>
+
+        {% if login_info.username|string() == item.author|string() %}
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+        {% elif login_info.username|string() != item.author|string() %}
+            <button class="btn btn-lg btn-danger btn-block" data-placement="top"
+                    title="Unable to edit entries that do not belong to you." type="submit" disabled>Update</button>
+        {% endif %}
+      <p class="mt-5 mb-3 text-muted">&copy; MovieLog, 2019.</p>
+    </form>
+  </body>
+</html>

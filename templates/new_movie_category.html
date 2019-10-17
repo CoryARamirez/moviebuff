@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+	<title>MovieLog</title>
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/new_form.css') }}" rel="stylesheet">
+</head>
+
+  <body class="text-center">
+    <form action="#" method="POST" class="form-signin">
+      <img class="mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+      <h1 class="h3 mb-3 font-weight-normal">Yipee!  Let's add your new movie category.</h1>
+
+      <label for="name" class="sr-only">Movie category (genre) name</label>
+      <input type="text" name="name" id="name" class="form-control" placeholder="Movie category (genre)" required autofocus>
+
+    </br>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+      <p class="mt-5 mb-3 text-muted">&copy; MovieLog, 2019.</p>
+    </form>
+  </body>
+</html>
