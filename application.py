@@ -36,6 +36,7 @@ def show_login():
     return render_template('login.html', STATE=state)
 
 
+# Google OAuth code provided by Udacity course material, modified for my own needs.
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
     # Validate state token
@@ -122,7 +123,7 @@ def gconnect():
     print("done!")
     return output
 
-
+# Google OAuth code provided by Udacity course material, modified for my own needs.
 @app.route('/gdisconnect')
 def gdisconnect():
     access_token = login_session.get('access_token')
