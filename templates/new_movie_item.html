@@ -24,11 +24,39 @@
       <textarea name="desc" id="desc" class="form-control" placeholder="Movie description" required autofocus></textarea>
         </br>
        <label for="desc" class="sr-only">Description</label>
-      <input type="url" name="url" id="url" class="form-control" placeholder="Direct URL to movie poster image" required autofocus>
+      <input type="url" name="url" id="url" class="form-control" placeholder="Direct image URL (Must be PNG or JPG)" required autofocus>
 
     </br>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+      <button id="submit-btn" class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
       <p class="mt-5 mb-3 text-muted">&copy; MovieLog, 2019.</p>
     </form>
   </body>
+    <span id="alert" class="alert alert-danger fixed-bottom" role="alert"></span>
 </html>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $("#alert").hide();
+    $("form").on("submit", function(event) {
+        const validExtensions = ['jpg', 'jpeg', 'png'];
+        let value = $("#url").val();
+
+        let substring = value.substring(
+            value.lastIndexOf(".") + 1,
+            value.length
+        );
+        const includes = validExtensions.includes(substring);
+
+        if (includes) {
+            return;
+        }
+
+        $("#submit-btn").prop('disabled', true);
+        $( "span" ).text( "Invalid link provided, must end with .png, .jpg or .jpeg extension" ).show().fadeOut( 5000 );
+        setTimeout(function() {
+            $("#submit-btn").prop('disabled', false);
+        }, 5000);
+
+        event.preventDefault();
+    });
+</script>

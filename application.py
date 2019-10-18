@@ -23,8 +23,7 @@ seed_db(session)
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-CLIENT_ID = json.loads(
-    open('client_secrets.json', 'r').read())['web']['client_id']
+CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Movie Catalog Application (Movie Buff)"
 
 
@@ -213,11 +212,15 @@ def edit_movie(genre_id, movie_id):
     if 'username' not in login_session:
         return redirect('/login')
     edited_item = session.query(Movies).filter_by(id=movie_id).one()
+    old_name = edited_item.name
     if request.method == 'POST':
         if request.form['name']:
             edited_item.name = request.form['name']
         if request.form['desc']:
             edited_item.description = request.form['name']
+
+        # Update image name on edit
+        shutil.move('static/img/' + old_name + '.png', 'static/img/' + edited_item.name + '.png')
 
         session.add(edited_item)
         session.commit()
@@ -257,18 +260,6 @@ def show_movie(genre_id, movie_id):
     movie = session.query(Movies).filter_by(id=movie_id).one()
 
     return render_template('movie.html', genre_id=genre_id, movie_id=movie_id, movie=movie)
-
-# Create a new movie category
-# @app.route('/genres/new', methods=['GET', 'POST'])
-# def new_movie_category():
-#     if request.method == 'POST':
-#         new_genre = Genres(name=request.form['name'])
-#         print(request.form['name'])
-#         session.add(new_genre)
-#         session.commit()
-#         return redirect(url_for('show_genres'))
-#     else:
-#         return render_template('new_movie_category.html')
 
 
 if __name__ == '__main__':
