@@ -4,11 +4,12 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from application import db
 
-Base = declarative_base()
+# Base = declarative_base()
 
 
-class Genres(Base):
+class Genres(db):
     __tablename__ = 'genres'
 
     name = Column(
@@ -30,7 +31,7 @@ class Genres(Base):
         }
 
 
-class Movies(Base):
+class Movies(db):
     __tablename__ = 'movies'
 
     name = Column(
@@ -63,24 +64,24 @@ class Movies(Base):
         }
 
 
-def new_engine(db_name):
-    if os.path.exists(db_name + ".db"):
-        os.remove(db_name + ".db")
-    else:
-        print("Requested db does not previously exist. Creating clean.")
-
-    # Todo: Understand why I was getting a thread synchronization error
-    engine = create_engine("sqlite:///" + db_name + ".db", connect_args={"check_same_thread": False})
-    Base.metadata.create_all(engine)
-
-    return engine
-
-
-def new_session(engine):
-    db_session = sessionmaker(bind=engine)
-    session = db_session()
-
-    return session
+# def new_engine(db_name):
+#     if os.path.exists(db_name + ".db"):
+#         os.remove(db_name + ".db")
+#     else:
+#         print("Requested db does not previously exist. Creating clean.")
+#
+#     # Todo: Understand why I was getting a thread synchronization error
+#     engine = create_engine("sqlite:///" + db_name + ".db", connect_args={"check_same_thread": False})
+#     Base.metadata.create_all(engine)
+#
+#     return engine
+#
+#
+# def new_session(engine):
+#     db_session = sessionmaker(bind=engine)
+#     session = db_session()
+#
+#     return session
 
 
 def seed_db(session):

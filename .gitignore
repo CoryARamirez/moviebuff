@@ -1,3 +1,4 @@
 .idea/
 database_setup.pyc
 movie_catalog.db
+__pycache__

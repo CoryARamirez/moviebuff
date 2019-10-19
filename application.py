@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for, make_response, flash
 from database_setup import Base, Genres, Movies, new_engine, new_session, seed_db
 from flask import session as login_session
+from flask.ext.sqlalchemy import SQLAlchemy
 try:
     from urllib.request import urlretrieve  # Python 3
 except ImportError:
@@ -15,13 +16,17 @@ import requests
 import shutil
 import random
 import string
+import os
 
-engine = new_engine("movie_catalog")
-session = new_session(engine)
-seed_db(session)
+# engine = new_engine("movie_catalog")
+# session = new_session(engine)
+# seed_db(session)
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+app.config.from_object(os.environ['APP_SETTINGS'])
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
 CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Movie Catalog Application (Movie Buff)"
@@ -30,7 +35,7 @@ APPLICATION_NAME = "Movie Catalog Application (Movie Buff)"
 # Login route
 @app.route('/login')
 def show_login():
-    state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(32))
     login_session['state'] = state
     # return "The current session state is %s" % login_session['state']
     return render_template('login.html', STATE=state)
